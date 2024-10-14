@@ -1,8 +1,10 @@
 import { Facebook, Twitter, Instagram, Linkedin, Github } from "lucide-react";
 import { useNavigationLinks } from "../Context/LinksProvider";
+import { useModal } from "../Context/ModalContext";
 
 export default function AccountsCanConnecting() {
 	const { setNavigationLinks } = useNavigationLinks();
+	const { closeModal } = useModal();
 	const socialAccounts = [
 		{
 			name: "Facebook",
@@ -40,13 +42,14 @@ export default function AccountsCanConnecting() {
    */
 	}
 	const handleConnect = (accountName, setNavigationLinks, id, link) => {
-		console.log({ id, title: accountName });
+		// console.log({ id, title: accountName });
 		setNavigationLinks((prevLinks) => {
 			return [
 				...prevLinks,
 				{ id, title: accountName, link: `/socialmedia${link}` },
 			];
 		});
+		closeModal();
 	};
 
 	return (

@@ -14,7 +14,6 @@ function LinksProvider({ children }) {
 	const [navigationLinks, setNavigationLinks] = useState([
 		{ id: 0, title: "Overview", link: "/" },
 	]);
-	console.log(navigationLinks);
 
 	return (
 		<NavigationLinks.Provider value={{ navigationLinks, setNavigationLinks }}>

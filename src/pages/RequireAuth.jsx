@@ -46,7 +46,7 @@ const RequireAuth = ({ children }) => {
 		if (!jwt) {
 			handleLogout();
 		} else {
-			console.log("JWT Cookie exists:", jwt);
+			// console.log("JWT Cookie exists:", jwt);
 		}
 	}, []);
 
@@ -65,10 +65,6 @@ const RequireAuth = ({ children }) => {
 		setLoading(false); // Loading complete after auth state is set
 	}, [setAuth]);
 
-	// Debug auth state updates
-	useEffect(() => {
-		console.log("Updated auth state:", auth);
-	}, [auth]);
 
 	// Show loading state while checking auth
 	if (loading) {
