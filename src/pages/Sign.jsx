@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import { SignIn, SignUp } from "../Api/AuthEndPoints";
 import useAuth from "./../hooks/useAuth";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const SignInSchema = Yup.object().shape({
@@ -25,13 +25,9 @@ const SignUpSchema = Yup.object().shape({
 export default function Sign() {
 	const { setAuth } = useAuth();
 	const [isSignUp, setIsSignUp] = useState(false);
-	const navigate = useNavigate(); // Create a navigate instance
+	const navigate = useNavigate();
 
-	const {
-		data: signUpData,
-		error: signUpError,
-		mutate: mutateFnSignUp,
-	} = useMutation({
+	const { isPending: signUpPending, mutate: mutateFnSignUp } = useMutation({
 		mutationKey: ["signUp"],
 		mutationFn: async (data) => {
 			const res = await SignUp(data);
@@ -42,7 +38,7 @@ export default function Sign() {
 			localStorage.setItem("token", res.token);
 			Cookies.set("jwt", res.token);
 			setAuth(res);
-			navigate("/"); // Use navigate for redirection
+			navigate("/");
 			toast.success("Sign Up successfully");
 		},
 		onError: () => {
@@ -50,11 +46,7 @@ export default function Sign() {
 		},
 	});
 
-	const {
-		data: signinData,
-		error: signInError,
-		mutate: mutateFnSignIn,
-	} = useMutation({
+	const { isPending: signInPending, mutate: mutateFnSignIn } = useMutation({
 		mutationKey: ["signin"],
 		mutationFn: async (data) => {
 			const res = await SignIn(data);
@@ -65,7 +57,7 @@ export default function Sign() {
 			localStorage.setItem("token", res.token);
 			Cookies.set("jwt", res.token);
 			setAuth(res);
-			navigate("/"); // Use navigate for redirection
+			navigate("/");
 			toast.success("Sign In Successfully");
 		},
 		onError: () => {
@@ -73,24 +65,29 @@ export default function Sign() {
 		},
 	});
 
-	const handleSubmit = (values, { setSubmitting }) => {
-		isSignUp ? mutateFnSignUp(values) : mutateFnSignIn(values);
-		setSubmitting(false);
-	};
-
 	const formik = useFormik({
 		initialValues: isSignUp
 			? { name: "", email: "", password: "", rePassword: "" }
 			: { email: "", password: "" },
 		validationSchema: isSignUp ? SignUpSchema : SignInSchema,
-		onSubmit: handleSubmit,
+		onSubmit: (values, { setSubmitting }) => {
+			isSignUp ? mutateFnSignUp(values) : mutateFnSignIn(values);
+			setSubmitting(false);
+		},
 	});
 
-	const toggleMode = () => setIsSignUp(!isSignUp);
-
+	// Reset the form when `isSignUp` changes
 	useEffect(() => {
-		formik.resetForm();
+		formik.resetForm({
+			values: isSignUp
+				? { name: "", email: "", password: "", rePassword: "" }
+				: { email: "", password: "" },
+		});
 	}, [isSignUp]);
+
+	const toggleMode = () => {
+		setIsSignUp(!isSignUp);
+	};
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -103,11 +100,11 @@ export default function Sign() {
 			<div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
 				<div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 					<Formik
-						initialValues={formik.initialValues}
+						initialValues={formik.values}
 						validationSchema={formik.validationSchema}
-						onSubmit={handleSubmit}
+						onSubmit={formik.handleSubmit}
 					>
-						{({ isSubmitting }) => (
+						{() => (
 							<Form className="space-y-6">
 								{isSignUp && (
 									<div>
@@ -212,10 +209,18 @@ export default function Sign() {
 								<div>
 									<button
 										type="submit"
-										disabled={isSubmitting}
-										className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+										disabled={signInPending || signUpPending}
+										className={`${
+											signInPending || signUpPending
+												? "bg-gray-600"
+												: "bg-indigo-600 hover:bg-indigo-700"
+										} w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
 									>
-										{isSignUp ? "Sign Up" : "Sign In"}
+										{signInPending || signUpPending
+											? "Submitting..."
+											: isSignUp
+											? "Sign Up"
+											: "Sign In"}
 									</button>
 								</div>
 							</Form>
