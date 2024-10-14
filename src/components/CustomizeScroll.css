@@ -1,0 +1,21 @@
+/* For Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+	width: 10px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #443c7c;
+	border-radius: 10px;
+	border: 2px solid #ffffff;
+	transition: background-color 0.3s; /* Corrected */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #453c7c74;
+	transition: background-color 0.3s; /* Corrected */
+}
