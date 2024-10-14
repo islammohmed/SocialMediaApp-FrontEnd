@@ -1,4 +1,4 @@
-import { Link } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const NavigationLink = ({ title, link }) => {
 	return (

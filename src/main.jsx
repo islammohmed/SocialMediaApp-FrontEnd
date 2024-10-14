@@ -8,6 +8,7 @@ import Modal from "./components/Modal.jsx";
 import { AuthProvider } from "./Context/AuthProvider.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { LinksProvider } from "./Context/LinksProvider.jsx";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")).render(
 					<AuthProvider>
 						<NavBarProvide>
 							<App />
+							<Toaster position="top-right" />
 							<Modal />
 						</NavBarProvide>
 					</AuthProvider>

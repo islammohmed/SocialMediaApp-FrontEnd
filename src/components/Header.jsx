@@ -4,10 +4,24 @@ import logo from "../assets/logo.png";
 import { useContext } from "react";
 import { MobileHandlerContext } from "../Context/mobileHandler";
 import { NavBarContext } from "../Context/NavBarProvide";
+import useAuth from "../hooks/useAuth";
+import Cookies from "js-cookie";
 
 function Header() {
 	const { isMobile } = useContext(MobileHandlerContext);
 	const { setOpenNav } = useContext(NavBarContext);
+	const user = JSON.parse(localStorage.getItem("user"));
+	const { setAuth } = useAuth();
+	// Utility to handle logout
+	const handleLogout = () => {
+		try {
+			localStorage.removeItem("token");
+			Cookies.remove("jwt");
+			setAuth(null);
+		} catch (error) {
+			console.error("Failed to log out:", error);
+		}
+	};
 	return (
 		<header className="bg-white shadow-sm">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 md:py-0 py-3 lg:px-8 flex items-center justify-between gap-3">
@@ -51,7 +65,7 @@ function Header() {
 					<button>
 						<Bell className="h-6 w-6 text-gray-500" />
 					</button>
-					<button>
+					<button onClick={handleLogout}>
 						<LogOut className="h-6 w-6 text-gray-500" />
 					</button>
 				</div>
@@ -61,7 +75,7 @@ function Header() {
 						alt="User Avatar"
 						className="h-6 w-6 rounded-full mr-2"
 					/>
-					<span className="text-sm font-medium">Julie Smith</span>
+					<span className="text-sm font-medium">{user.name}</span>
 				</div>
 			</div>
 		</header>

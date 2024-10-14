@@ -16,7 +16,8 @@ const {
 	moodData,
 } = InstagramData;
 export default function SocialMediaAppDashboard() {
-	console.log(new Date().now);
+	const user = JSON.parse(localStorage.getItem("user"));
+
 	return (
 		<div className="container mx-auto md:p-4 p-0  max-w-full">
 			<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-4 justify-items-center">
@@ -38,7 +39,7 @@ export default function SocialMediaAppDashboard() {
 					followers={profileInformation.Followers}
 					following={profileInformation.Following}
 					link={profileInformation.Link}
-					username={profileInformation.Username}
+					username={user.name}
 					posts={profileInformation.posts}
 				/>
 				<div className="">

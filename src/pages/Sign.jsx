@@ -6,6 +6,7 @@ import { SignIn, SignUp } from "../Api/AuthEndPoints";
 import useAuth from "./../hooks/useAuth";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import toast from "react-hot-toast";
 
 const SignInSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Required"),
@@ -37,11 +38,15 @@ export default function Sign() {
 			return res.data;
 		},
 		onSuccess: (res) => {
-			localStorage.setItem("user", JSON.stringify(res.checkEmail));
+			localStorage.setItem("user", JSON.stringify(res.user));
 			localStorage.setItem("token", res.token);
 			Cookies.set("jwt", res.token);
 			setAuth(res);
 			navigate("/"); // Use navigate for redirection
+			toast.success("Sign Up successfully");
+		},
+		onError: () => {
+			toast.error("Error signing up");
 		},
 	});
 
@@ -56,11 +61,15 @@ export default function Sign() {
 			return res.data;
 		},
 		onSuccess: (res) => {
-			localStorage.setItem("user", JSON.stringify(res.checkEmail));
+			localStorage.setItem("user", JSON.stringify(res.user));
 			localStorage.setItem("token", res.token);
 			Cookies.set("jwt", res.token);
 			setAuth(res);
 			navigate("/"); // Use navigate for redirection
+			toast.success("Sign In Successfully");
+		},
+		onError: () => {
+			toast.error("Invalid Credentials");
 		},
 	});
 

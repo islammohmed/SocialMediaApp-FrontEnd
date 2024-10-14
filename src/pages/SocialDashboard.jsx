@@ -6,6 +6,8 @@ import { TotalOverView } from "../Api/EndPoints";
 import MetricCard from "./../components/MetricCard";
 const { profileData, totalData } = TotalOverView;
 export default function SocialDashboard() {
+	const user = JSON.parse(localStorage.getItem("user"));
+
 	return (
 		<div className="min-h-screen bg-gray-100 md:p-6">
 			<div className="gap-6 flex flex-col ">
@@ -14,8 +16,8 @@ export default function SocialDashboard() {
 					<div className="md:w-2/4 w-full rounded-lg md:p-6 flex flex-col gap-2">
 						{/* Profile Section */}
 						<ProfileSection
-							userName={profileData.userName}
-							createdAt={profileData.createdAt}
+							userName={user.name}
+							email={user.email}
 							profileImage={profileData.profileImage}
 						/>
 

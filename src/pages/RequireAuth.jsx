@@ -2,7 +2,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import {jwtDecode} from "jwt-decode"; // Fixed the import (it's not a named import)
+import { jwtDecode } from "jwt-decode"; // Fixed the import (it's not a named import)
 
 const RequireAuth = ({ children }) => {
 	const location = useLocation();
@@ -58,7 +58,7 @@ const RequireAuth = ({ children }) => {
 		if (user && token) {
 			const parsedUser = JSON.parse(user);
 			setAuth({
-				checkEmail: parsedUser,
+				user: parsedUser,
 				token: token,
 			});
 		}
@@ -76,7 +76,7 @@ const RequireAuth = ({ children }) => {
 	}
 
 	// If user is authenticated, allow access to the route
-	if (auth?.checkEmail) {
+	if (auth?.user) {
 		return children;
 	}
 

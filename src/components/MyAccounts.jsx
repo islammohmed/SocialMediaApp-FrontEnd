@@ -5,6 +5,8 @@ import AccountsCanConnecting from "./AccountsCanConnecting";
 
 function MyAccounts() {
 	const { openModal } = useModal();
+	const user = JSON.parse(localStorage.getItem("user"));
+
 	return (
 		<>
 			<div className="flex justify-between items-center mb-4">
@@ -21,18 +23,18 @@ function MyAccounts() {
 			</div>{" "}
 			{/* Accounts List */}
 			<div className="space-y-4">
-				{[1, 2].map((_, index) => (
+				{[1].map((_, index) => (
 					<div
 						key={index}
-						className="bg-purple-200 rounded-lg p-6 flex items-center"
+						className="bg-purple-200 rounded-lg md:p-6 p-2 flex items-center"
 					>
 						<img
 							src={logo}
-							alt={"fares"}
+							alt={user.namme}
 							className="h-16 w-16 rounded-full mr-4"
 						/>
 						<div>
-							<h2 className="text-xl font-bold">@Jolie_SmithX</h2>
+							<h2 className="font-bold">@{user.name}</h2>
 							<p className="text-sm text-gray-500">
 								Twitter / X · 122,458 followers
 							</p>

@@ -17,7 +17,6 @@ import NavigationLink from "../components/NavigationLink";
 function Layout() {
 	const { isMobile } = useContext(MobileHandlerContext);
 	const { navigationLinks } = useNavigationLinks();
-	// console.log(navigationLinks);
 	return (
 		<div className="min-h-screen bg-gray-100">
 			<Header />
