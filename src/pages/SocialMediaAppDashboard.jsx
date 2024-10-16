@@ -9,9 +9,7 @@ import { InstagramData } from "../Api/EndPoints";
 import HashtagPerformanceComponent from "../components/HashtagPerformanceComponent";
 const {
 	profileInformation,
-	overViewData,
 	HashtagPerformance,
-	ProfileDiscovery,
 	topPosts,
 	moodData,
 } = InstagramData;
