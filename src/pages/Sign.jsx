@@ -41,9 +41,6 @@ export default function Sign() {
 			navigate("/");
 			toast.success("Sign Up successfully");
 		},
-		onError: () => {
-			toast.error("Error signing up");
-		},
 	});
 
 	const { isPending: signInPending, mutate: mutateFnSignIn } = useMutation({
@@ -59,9 +56,6 @@ export default function Sign() {
 			setAuth(res);
 			navigate("/");
 			toast.success("Sign In Successfully");
-		},
-		onError: () => {
-			toast.error("Invalid Credentials");
 		},
 	});
 
